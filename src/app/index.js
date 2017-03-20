@@ -30,14 +30,9 @@ class App extends React.Component {
 
 render(<App />, window.document.getElementById('app'));*/
 
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 
-let initialState = {
-    result: 1,
-    lastValues: [],
-    username: 'Gaurav'
-}
-const reducer = (state = initialState, action) => {
+const mathReducer = (state = {result: 1, lastValues: []}, action) => {
     
     switch (action.type) {
         case "ADD":
@@ -58,7 +53,28 @@ const reducer = (state = initialState, action) => {
     return state;
 };
 
-const store = createStore(reducer);
+const userReducer = (state = {name: 'Gaurav', city: 'Nagpur', lastValues: []}, action) => {
+    
+    switch (action.type) {
+        case "SET_NAME":
+            state = {
+                ...state,
+                name: action.payload,
+                lastValues: [...state.lastValues, action.payload]
+            }
+            break;
+        case "SET_CITY":
+            state = {
+                ...state,
+                city: action.payload,
+                lastValues: [...state.lastValues, action.payload]
+            }
+            break;
+    }
+    return state;
+};
+
+const store = createStore(combineReducers({mathReducer, userReducer}));
 
 store.subscribe(()  => {
     console.log('store updated', store.getState());
@@ -74,3 +90,12 @@ store.dispatch({
     payload: 5
 });
 
+store.dispatch({
+    type: 'SET_NAME',
+    payload: 'New Name'
+});
+
+store.dispatch({
+    type: 'SET_CITY',
+    payload: 'New CITY'
+});
