@@ -1,4 +1,4 @@
-import React from "react";
+/*import React from "react";
 import {render} from "react-dom";
 
 import { User } from './components/User';
@@ -28,4 +28,35 @@ class App extends React.Component {
     }
 }
 
-render(<App />, window.document.getElementById('app'));
+render(<App />, window.document.getElementById('app'));*/
+
+import { createStore } from 'redux';
+
+const reducer = (state, action) => {
+    
+    switch (action.type) {
+        case "ADD":
+            state = state + action.payload;
+            break;
+        case "SUB":
+            state = state - action.payload;
+            break;
+    }
+    return state;
+};
+
+const store = createStore(reducer, 1);
+
+store.subscribe(()  => {
+    console.log('store updated', store.getState());
+})
+store.dispatch({
+    type: 'ADD',
+    payload: 2
+});
+
+store.dispatch({
+    type: 'SUB',
+    payload: 10
+});
+
