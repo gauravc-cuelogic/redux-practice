@@ -32,31 +32,45 @@ render(<App />, window.document.getElementById('app'));*/
 
 import { createStore } from 'redux';
 
-const reducer = (state, action) => {
+let initialState = {
+    result: 1,
+    lastValues: [],
+    username: 'Gaurav'
+}
+const reducer = (state = initialState, action) => {
     
     switch (action.type) {
         case "ADD":
-            state = state + action.payload;
+            state = {
+                ...state,
+                result: state.result + action.payload,
+                lastValues: [...state.lastValues, action.payload]
+            }
             break;
         case "SUB":
-            state = state - action.payload;
+            state = {
+                ...state,
+                result: state.result - action.payload,
+                lastValues: [...state.lastValues, action.payload]
+            }
             break;
     }
     return state;
 };
 
-const store = createStore(reducer, 1);
+const store = createStore(reducer);
 
 store.subscribe(()  => {
     console.log('store updated', store.getState());
-})
+});
+
 store.dispatch({
     type: 'ADD',
-    payload: 2
+    payload: 10
 });
 
 store.dispatch({
     type: 'SUB',
-    payload: 10
+    payload: 5
 });
 
