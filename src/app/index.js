@@ -2,7 +2,7 @@ import React from "react";
 import {render} from "react-dom";
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
-import App from './components/App';
+import App from './container/App';
 import { Provider } from 'react-redux';
 
 const mathReducer = (state = {result: 1, lastValues: []}, action) => {
